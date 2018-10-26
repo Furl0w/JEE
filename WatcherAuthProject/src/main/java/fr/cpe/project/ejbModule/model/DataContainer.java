@@ -1,12 +1,13 @@
 package fr.cpe.project.ejbModule.model;
 
-import common.Role;
+import common.DaoUserManager;
 import common.UserLogin;
 import common.UserModel;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +15,23 @@ import java.util.List;
 @Startup
 public class DataContainer {
 
+    @Inject
+    private DaoUserManager dao;
+
     private List<UserModel> users;
 
-    public DataContainer() { }
+    public DataContainer() {
+    }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         users = new ArrayList<UserModel>();
         users.add(new UserModel());
     }
 
     public UserModel checkUser(UserLogin user) {
 
-        for(UserModel u : users){
-            if(u.getLogin() == user.getLogin() && u.getPwd() == user.getPwd()){
-                return u;
-            }
-        }
-        UserModel empty = new UserModel();
-        empty.setRole(Role.None);
-        return empty;
-    }
+        return dao.getUser(user);
 
+    }
 }

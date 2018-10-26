@@ -1,36 +1,62 @@
 package common;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name="Users")
 public class UserModel implements Serializable {
-    private String lastName;
-    private String surName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int idUser;
+
+    @Column(name = "lastname")
+    private String lastname;
+    @Column(name = "surname")
+
+    private String surname;
+
+    @Column(name="login",nullable = false,unique = true)
     private String login;
+
+    @Column(name="pwd",nullable = false)
     private String pwd;
+
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public UserModel() {
-        this.lastName = "";
-        this.surName = "";
+        this.idUser = 0;
+        this.lastname = "";
+        this.surname = "";
         this.login = "";
         this.pwd = "";
         this.role = Role.None;
     }
 
-    public String getLastName() {
-        return lastName;
+    public Number getIdUser() {
+        return idUser;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getLogin() {
@@ -56,6 +82,4 @@ public class UserModel implements Serializable {
     public void setRole(Role role) {
         this.role = role;
     }
-
-
 }

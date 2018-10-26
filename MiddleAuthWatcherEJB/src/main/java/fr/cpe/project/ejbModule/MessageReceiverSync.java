@@ -27,7 +27,11 @@ public class MessageReceiverSync implements MessageReceiverSyncLocal {
     public LoginResponse receiveMessage() {
         JMSConsumer consumer = context.createConsumer(queue);
         UserModel user =  consumer.receiveBody(UserModel.class);
-        Boolean validAuth = user.getRole() != Role.None;
-        return new LoginResponse(user.getLogin(),validAuth,user.getRole());
+        if(user != null) {
+            Boolean validAuth = user.getRole() != Role.None;
+            return new LoginResponse(user.getLogin(),validAuth,user.getRole());
+        }else {
+            return new LoginResponse("error",false,Role.None);
+        }
     }
 }
